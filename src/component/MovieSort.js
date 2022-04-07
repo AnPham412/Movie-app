@@ -2,11 +2,9 @@ import React from "react";
 import { FSelect } from "./form";
 
 const SORT_OPTIONS = [
-    { value: "featured", label: "Featured" },
-    { value: "newest", label: "Newest" },
-    {value: "hot", label: "Hot" },
-    {value: "genres", label: "Tag" },
-    {value: "cinema", label: "Cinema"},
+    { value: "alphabet", label: "A-Z" },
+    { value: "reverse", label: "Z-A" },
+    { value: "cinema", label: "Cinema"},
 ];
 
 function MovieSort() {
