@@ -1,30 +1,35 @@
 import axios from "axios";
-import { BASE_URL } from "./config";
+import queryString from "query-string";
+import apiConfig from "./apiConfig";
 
 const apiService = axios.create({
-    baseURL: BASE_URL,
+  baseURL: apiConfig.baseUrl,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  params: {},
+  paramsSerializer: (params) =>
+    queryString.stringify({ ...params, api_key: apiConfig.apiKey }),
 });
 
-apiService.interceptors.request.use(
-    (request) => {
-        console.log("START REQUEST", request);
-        return request;
-    },
-    function (error) {
-        console.log("REQUEST ERROR", error);
-        return Promise.reject(error);
-    }
-);
+apiService.interceptors.request.use((config) => {
+  // console.log(config);
+  return config;
+});
 
 apiService.interceptors.response.use(
-    (response) => {
-        console.log("RESPONSE", response);
-        return response;
-    },
-    function (error) {
-        console.log("RESPONSE ERROR", error);
-        return Promise.reject(error);
+  (response) => {
+    if (response && response.data) {
+      // console.log("ok.data", response.data);
+      return response.data;
     }
+    // console.log("ok", response);
+    return response;
+  },
+  (err) => {
+    // console.log(err);
+    throw err;
+  }
 );
 
 export default apiService;
